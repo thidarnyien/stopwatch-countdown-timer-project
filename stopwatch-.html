@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        .container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stopwatch{
+            font-size: 200px;
+            font-weight: bold;
+            color: rgb(228, 228, 27);
+        }
+        
+        .btn{
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-right: 15px;
+
+        }
+        .btn:hover{
+            box-shadow: 0 0 5px black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="stopwatch">00:00:00</div>
+        <div class="btn-container">
+            <button class="btn startBtn">Start</button>
+            <button class="btn pauseBtn">Pause</button>
+            <button class="btn continueBtn">Continue</button>
+            <button class="btn restartBtn">Restart</button>
+        </div>
+    </div>
+    <script>
+        const stopwatch= document.getElementsByClassName("stopwatch")[0];
+        const startBtn= document.getElementsByClassName("startBtn")[0];
+        const pauseBtn= document.getElementsByClassName("pauseBtn")[0];
+        const continueBtn= document.getElementsByClassName("continueBtn")[0];
+        const restartBtn= document.getElementsByClassName("restartBtn")[0];
+
+        let seconds=0, minutes=0, hours=0;
+        const startTime = () => {
+            seconds+=1;
+            if(seconds===60){
+                seconds=0;
+                minutes+=1;
+                if(minutes===60){
+                    minutes=0;
+                    hours+=1;
+                }
+            }
+            const secondsText= seconds<10 ? "0"+ seconds.toString() : seconds;
+            const minutesText= minutes<10 ? "0"+ minutes.toString() : minutes;
+            const hoursText= hours<10 ? "0"+ hours.toString() : hours;
+            stopwatch.textContent= hoursText + ":" + minutesText+ ":" +secondsText;        
+        }
+        let intervalId;
+        startBtn.addEventListener("click", ()=>{
+            intervalId=setInterval(startTime, 1000)
+        });
+        pauseBtn.addEventListener("click", ()=>{
+            clearInterval(intervalId);
+        });
+        continueBtn.addEventListener("click", ()=>{
+            clearInterval(intervalId);
+            intervalId=setInterval(startTime, 1000)
+        });
+        restartBtn.addEventListener("click", ()=>{
+            clearInterval(intervalId);
+            seconds=0;minutes=0,hours=0;
+            intervalId=setInterval(startTime, 1000)
+
+        });
+        
+
+    </script>
+</body>
+</html>
